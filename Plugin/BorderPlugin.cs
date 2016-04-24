@@ -43,9 +43,9 @@ namespace TestPlugin
                     player.KnownPosition.X  - (packet.x - player.KnownPosition.X),
                     player.KnownPosition.Y, 
                     player.KnownPosition.Z - (packet.z - player.KnownPosition.Z)) {
-                    HeadYaw = player.KnownPosition.HeadYaw,
-                    Pitch = player.KnownPosition.Pitch,
-                    Yaw = player.KnownPosition.Yaw
+                    HeadYaw = packet.headYaw,
+                    Pitch = packet.pitch,
+                    Yaw = packet.yaw
                 });
            
 

@@ -36,22 +36,30 @@ namespace TestPlugin
                 File.WriteAllText("config.json", JsonConvert.SerializeObject(cfg, Formatting.Indented));
             }
 
-
-            foreach (var i in cfg.Messages)
+            ThreadPool.QueueUserWorkItem((p) =>
             {
-                ThreadPool.QueueUserWorkItem((p) =>
-                {
-                    while (Run && cfg.Enabled)
-                    {
-                        foreach (var z in Context.LevelManager.Levels)
-                        {
-                            z.BroadcastMessage(i.Text);
-                        }
 
-                        Thread.Sleep(1000 * i.DelayInSconds);
+                while (Run && cfg.Enabled)
+                {
+                    for (int i = 0; i < cfg.Messages.Count; i++)
+                    {
+                        var msg = cfg.Messages[i];
+
+                        if (msg.Counter == msg.DelayInSconds)
+                        {
+                            foreach (var z in Context.LevelManager.Levels)
+                            {
+                                z.BroadcastMessage(msg.Text);
+                            }
+                            msg.Counter = 0;
+                        }
+                        msg.Counter++;
+
                     }
-                });
-            }
+
+                    Thread.Sleep(1000);
+                }
+            });
 
             base.OnEnable();
         }

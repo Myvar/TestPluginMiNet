@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace TestPlugin
 {
@@ -19,5 +20,8 @@ namespace TestPlugin
     {
         public string Text { get; set; }
         public int DelayInSconds { get; set; }
+
+        [JsonIgnore]
+        public int Counter { get; set; }
     }
 }
